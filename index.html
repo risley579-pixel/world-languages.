@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101713">
+  <meta name="description" content="English Memory — aprenda inglês com desafios rápidos e gratuitos.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <title>English Memory</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101713;--panel:#18231d;--panel2:#202e26;--text:#f3f7f3;--muted:#a4b2a8;--green:#63d49b;--green2:#2e9d6a;--line:#304137;--bad:#ff7777}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 80% 0%,#1b3025 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+    button{font:inherit;cursor:pointer} .app{max-width:720px;margin:auto;padding:22px 18px 40px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:13px;background:var(--green);color:#102017;display:grid;place-items:center;font-weight:900;font-size:19px}.brand strong{display:block;letter-spacing:.12em;font-size:13px}.brand small{color:var(--muted);font-size:11px;letter-spacing:.08em}
+    .pill{border:1px solid var(--line);border-radius:99px;padding:7px 11px;color:var(--muted);font-size:12px}
+    .eyebrow{color:var(--green);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+    h1{font-size:clamp(34px,8vw,54px);line-height:1.04;letter-spacing:-.045em;margin:12px 0}.lead{color:var(--muted);max-width:470px;margin:0 0 25px}
+    .hero{padding:26px 22px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(36,60,46,.88),rgba(24,35,29,.92));position:relative;overflow:hidden}
+    .hero:after{content:"A";position:absolute;right:20px;bottom:-48px;font-size:190px;font-weight:900;color:rgba(99,212,155,.07);pointer-events:none}
+    .btn{border:0;border-radius:13px;padding:14px 18px;font-weight:750;background:var(--green);color:#102017;transition:.15s}.btn:active{transform:scale(.98)}.btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.full{width:100%}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 28px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}.stat b{display:block;font-size:22px}.stat span{color:var(--muted);font-size:11px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;margin:26px 0 13px}.section-head h2{margin:0;font-size:18px}.section-head small{color:var(--muted)}
+    .categories{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.category{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:16px;text-align:left;color:var(--text);min-height:112px}.category:active{border-color:var(--green)}.cat-icon{font-size:23px}.category b{display:block;margin:8px 0 2px}.category small{color:var(--muted)}.category.locked{opacity:.72;border-style:dashed}.category.locked .cat-icon{filter:grayscale(1)}.reward-row{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}.reward-row .reward-icon{font-size:22px}.reward-row small{display:block;color:var(--muted);font-size:11px}.reward-row.unlocked{border-color:var(--green)}.chest-card{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.chest-card.ready{border-color:var(--green);background:var(--panel2)}.chest-card button{white-space:nowrap}
+    .screen{display:none}.screen.active{display:block}.topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.back{background:none;border:0;color:var(--muted);padding:8px 0}.progress{height:6px;background:var(--panel2);border-radius:9px;overflow:hidden;margin:12px 0 24px}.progress i{display:block;height:100%;background:var(--green);width:0;transition:width .2s}
+    .question-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px 18px;text-align:center;margin:20px 0}.question-card .word{font-size:clamp(28px,7vw,40px);font-weight:850;letter-spacing:-.04em;margin:12px 0}.question-card p{color:var(--muted);margin:0;font-size:13px}
+    .answers{display:grid;gap:10px}.answer{width:100%;text-align:left;padding:15px 16px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;display:flex;gap:12px;align-items:center}.answer .letter{width:27px;height:27px;border-radius:8px;background:var(--panel2);display:grid;place-items:center;color:var(--muted);font-size:12px;font-weight:800}.answer.correct{border-color:var(--green);background:rgba(46,157,106,.15)}.answer.wrong{border-color:var(--bad);background:rgba(255,119,119,.1)}.answer:disabled{cursor:default}
+    .feedback{display:none;margin:14px 0;padding:14px;border-radius:13px;background:var(--panel2);color:var(--muted)}.feedback.show{display:block}.feedback b{color:var(--text)}
+    .result{text-align:center;padding:30px 16px;background:var(--panel);border:1px solid var(--line);border-radius:22px}.result .medal{font-size:48px}.result h2{font-size:30px;margin:8px 0}.result p{color:var(--muted)}
+    .footer{color:#73847a;text-align:center;font-size:11px;margin-top:34px}
+    .star-btn{border:1px solid var(--line);background:var(--panel2);color:#f6c85f;border-radius:11px;padding:9px 11px;font-size:19px;line-height:1;min-width:42px}.star-btn.saved{background:rgba(246,200,95,.14);border-color:#a98735}.favorite-empty{padding:24px;text-align:center;border:1px dashed var(--line);border-radius:16px;color:var(--muted)}.word-visual{display:none;width:112px;height:96px;margin:12px auto 8px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,var(--panel2),var(--panel));font-size:58px;line-height:1;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.16)}.word-visual.visible{display:flex}.dictionary-visual{width:48px;height:48px;flex:0 0 48px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;font-size:27px;border:1px solid var(--line)}
+    @media(min-width:600px){.categories{grid-template-columns:repeat(3,1fr)}.hero{padding:34px}.app{padding-top:30px}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <div class="brand"><div class="logo">EM</div><div><strong>ENGLISH MEMORY</strong><small>LEARN · PRACTICE · EVOLVE</small></div></div>
+    <div class="pill">100% GRATUITO</div>
+  </header>
+
+  <section id="home" class="screen active">
+    <div class="hero">
+      <div class="eyebrow">SEU INGLÊS COMEÇA AQUI</div>
+      <h1>Pequenos passos.<br>Grandes conquistas.</h1>
+      <p class="lead">Aprenda novas palavras em inglês com desafios rápidos, objetivos e divertidos.</p>
+      <button class="btn" onclick="startQuiz('all')">Começar desafio&nbsp; →</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <button class="btn secondary" onclick="startReview()">↻ Revisar palavras</button>
+      <button class="btn secondary" onclick="startTimed()">◷ Desafio cronometrado</button>
+      <button class="btn secondary" style="grid-column:1/-1" onclick="startListeningPractice()">🎧 Treinar pelo ouvido</button>
+      <button class="btn secondary" onclick="showWritingPractice()">✍️ Escrever em inglês</button>
+      <button class="btn secondary" style="grid-column:1/-1" onclick="showVirtualTeacher()">🧑‍🏫 Professor virtual</button>
+      <button class="btn secondary" onclick="showDailyPlan()">📅 Plano diário</button>
+      <button class="btn secondary" style="grid-column:1/-1" onclick="showDailyVocabulary()">🆕 Palavras úteis de hoje</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="xp">0</b><span>XP TOTAL</span></div>
+      <div class="stat"><b id="done">0</b><span>QUESTÕES RESPONDIDAS</span></div>
+      <div class="stat"><b id="accuracy">—</b><span>APROVEITAMENTO</span></div>
+    </div>
+    <div class="section-head"><h2>🏆 Recompensas</h2><small>Estude e desbloqueie</small></div>
+    <div class="hero" style="padding:16px 18px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div><div class="eyebrow">SUA PRÓXIMA CONQUISTA</div><div id="rewardNextTitle" style="font-size:18px;font-weight:850;margin-top:5px">Desafio de viagem</div><small id="rewardNextHint" style="color:var(--muted)">Faltam 40 XP para desbloquear</small></div>
+        <div style="font-size:30px">🎁</div>
+      </div>
+      <div class="progress" style="margin:12px 0 8px"><i id="rewardProgress"></i></div>
+      <div id="rewardList" style="display:grid;gap:8px;margin-top:12px"></div>
+      <div id="chestArea" style="margin-top:12px"></div>
+    </div>
+    <div class="section-head"><h2>Explore categorias</h2><small>Escolha um tema</small></div>
+    <div class="categories" id="categories"></div>
+
+    <div class="section-head"><h2>Sua jornada</h2><small id="levelLabel">NÍVEL 1 · INICIANTE</small></div>
+    <div class="hero" style="padding:18px 18px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div><div class="eyebrow">PROGRESSO DO NÍVEL</div><div style="font-size:22px;font-weight:850;margin-top:5px"><span id="levelXp">0</span> / <span id="nextLevelXp">100</span> XP</div></div>
+        <div style="font-size:30px">✦</div>
+      </div>
+      <div class="progress" style="margin:12px 0 0"><i id="levelProgress"></i></div>
+    </div>
+    <div class="section-head"><h2>Aprenda também</h2><small>Além dos desafios</small></div>
+    <div class="categories" style="grid-template-columns:repeat(2,1fr)">
+      <button class="category" onclick="showDictionary()"><span class="cat-icon">⌕</span><b>Dicionário</b><small>Consulte palavras</small></button>
+      <button class="category" onclick="showProfile()"><span class="cat-icon">♙</span><b>Meu perfil</b><small>Conquistas e evolução</small></button>
+    </div>
+    <div class="footer">ENGLISH MEMORY · VERSÃO 3.5 · FEITO PARA APRENDER</div>
+  </section>
+
+  <section id="quiz" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Voltar</button><span class="pill" id="levelPill">INICIANTE</span></div>
+    <div class="eyebrow" id="quizCategory">DESAFIO</div>
+    <div class="progress"><i id="progressBar"></i></div>
+    <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px"><span id="counter">QUESTÃO 1/10</span><span><span id="timerLabel" style="margin-right:10px"></span><span id="roundScore">0 XP</span></span></div>
+    <div style="display:flex;justify-content:flex-end;margin:0 0 10px"><button class="btn secondary" style="padding:8px 12px;font-size:12px" onclick="toggleDirection()">⇄ Alternar idioma</button></div><div class="question-card"><p id="instruction">ESCOLHA A TRADUÇÃO CORRETA</p><div class="word" id="questionWord">APPLE</div><div id="questionVisual" class="word-visual" aria-label="Ilustração da palavra">🍎</div><p id="quizPronunciation" style="color:var(--green);font-size:14px;margin:0 0 10px">Pronúncia aproximada: É-pəl</p><p id="subInstruction">O que esta palavra significa?</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px"><button class="btn secondary" style="padding:9px 12px;font-size:12px" onclick="speakCurrent(1)">🔊 Normal (1×)</button><button class="btn secondary" style="padding:9px 12px;font-size:12px" onclick="speakCurrent(.28)">🐢 Bem lento (0,28×)</button></div></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" class="btn full" style="display:none;margin-top:14px" onclick="nextQuestion()">Próxima questão →</button>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">RESULTADO</span></div>
+    <div class="result"><div class="medal">✦</div><div class="eyebrow">DESAFIO CONCLUÍDO</div><h2 id="resultTitle">Muito bem!</h2><p id="resultText">Você concluiu sua rodada.</p><div class="stats"><div class="stat"><b id="resultCorrect">0/10</b><span>ACERTOS</span></div><div class="stat"><b id="resultXp">0</b><span>XP GANHOS</span></div><div class="stat"><b id="resultRate">0%</b><span>PRECISÃO</span></div></div><button class="btn full" onclick="currentCategory==='favorites'?startFavoriteReview():startQuiz(currentCategory)">Jogar novamente</button><button class="btn secondary full" style="margin-top:10px" onclick="goHome()">Voltar ao início</button></div>
+  </section>
+
+  <section id="dictionary" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">VOCABULÁRIO</span></div>
+    <div class="eyebrow">SEU DICIONÁRIO</div><h1 style="font-size:34px">Explore palavras.</h1>
+    <p class="lead">Pesquise uma palavra, veja uma aproximação da pronúncia em português e pratique em velocidade normal ou lenta. A escrita é um guia, não substitui o áudio.</p>
+
+    <div class="hero" style="padding:17px;margin:14px 0">
+      <div class="eyebrow">GUIA RÁPIDO</div>
+      <b>Aprenda como as pessoas realmente falam</b>
+      <p style="color:var(--muted);font-size:13px;margin:7px 0 0">“Hi” é mais informal que “Hello”. “What's up?” é uma saudação casual, parecida com “E aí?”. Em situações formais, prefira “Good morning” ou “How are you?”. As traduções são adaptadas ao contexto, não necessariamente palavra por palavra.</p>
+    </div>
+    <input id="dictSearch" type="search" placeholder="Buscar palavra..." oninput="renderDictionary()" style="width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;outline:none">
+    <div id="dictionaryList" class="answers" style="margin-top:14px"></div>
+  </section>
+  <section id="favorites" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">SUA COLEÇÃO</span></div>
+    <div class="eyebrow">PALAVRAS IMPORTANTES</div><h1 style="font-size:34px">Meus favoritos ★</h1>
+    <p class="lead">Toque na estrela no dicionário para guardar palavras e expressões aqui. Elas ficam salvas neste aparelho.</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:16px 0"><span id="favoriteCount" style="color:var(--muted);font-size:13px">0 itens salvos</span><button class="btn secondary" style="padding:10px 12px;font-size:12px" onclick="startFavoriteReview()">▶ Estudar favoritos</button></div>
+    <div id="favoriteList" class="answers"></div>
+  </section>
+  <section id="writingPractice" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">ESCRITA</span></div>
+    <div class="eyebrow">PENSE E ESCREVA</div><h1 style="font-size:34px">Como se diz em inglês?</h1>
+    <p class="lead">Traduza a frase. Escreva sua resposta e confira uma sugestão. A correção funciona sem internet.</p>
+    <div class="progress"><i id="writeProgress"></i></div>
+    <div class="question-card" style="text-align:left">
+      <p id="writeCounter">FRASE 1/5</p><div class="word" id="writePrompt" style="font-size:25px;text-align:left">Bom dia!</div>
+      <p id="writeHint" style="text-align:left;margin-top:8px">Dica: uma saudação comum pela manhã.</p>
+    </div>
+    <input id="writeAnswer" type="text" autocomplete="off" autocapitalize="sentences" placeholder="Digite em inglês..." style="width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit">
+    <button id="checkWrite" class="btn full" style="margin-top:12px" onclick="checkWritingAnswer()">Conferir resposta</button>
+    <div id="writeFeedback" class="feedback"></div>
+    <button id="nextWrite" class="btn full" style="display:none;margin-top:12px" onclick="nextWritingPrompt()">Próxima frase →</button>
+  </section>
+
+  <section id="virtualTeacher" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">PROFESSOR VIRTUAL</span></div>
+    <div class="eyebrow">PRATIQUE SEM MEDO DE ERRAR</div>
+    <h1 style="font-size:34px">Vamos conversar.</h1>
+    <p class="lead">Responda em inglês. O professor aceita diferentes formas de resposta e dá dicas de estrutura e gramática.</p>
+    <div class="question-card" style="text-align:left">
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="logo" style="width:42px;height:42px;flex:0 0 42px">🧑‍🏫</div>
+        <div><b>Professor Alex</b><div style="color:var(--muted);font-size:12px">Inglês do dia a dia · prática guiada</div></div>
+      </div>
+      <div id="teacherScenario" style="margin-top:18px;color:var(--green);font-size:12px;font-weight:800">AULA 1 · APRESENTAÇÃO</div>
+      <div id="teacherPrompt" style="font-size:22px;font-weight:800;margin:9px 0">Hello! What's your name?</div>
+      <div id="teacherTranslation" style="color:var(--muted)">Olá! Qual é o seu nome?</div>
+      <button class="btn secondary" style="margin-top:12px;padding:9px 12px;font-size:12px" onclick="speakTeacherPrompt()">🔊 Ouvir pergunta</button>
+    </div>
+    <div class="progress" style="margin:16px 0"><i id="teacherProgress"></i></div>
+    <div id="teacherHint" style="font-size:13px;color:var(--muted);margin-bottom:10px">Dica: comece com “My name is...”</div>
+    <textarea id="teacherAnswer" rows="2" placeholder="Escreva sua resposta em inglês..." style="width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;resize:vertical"></textarea>
+    <button id="teacherSend" class="btn full" style="margin-top:10px" onclick="submitTeacherAnswer()">Enviar resposta</button>
+    <div id="teacherFeedback" class="feedback"></div>
+    <button id="teacherNext" class="btn full" style="display:none;margin-top:12px" onclick="nextTeacherPrompt()">Próxima pergunta →</button>
+    <p style="font-size:11px;color:var(--muted);margin-top:14px">Esta versão usa exercícios e respostas orientadas que funcionam offline; ainda não é uma conversa livre com IA.</p>
+  </section>
+
+  <section id="dailyPlan" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">ROTINA</span></div>
+    <div class="eyebrow">UM POUCO TODOS OS DIAS</div><h1 style="font-size:34px">Seu plano diário.</h1>
+    <p class="lead">Uma rotina curta e equilibrada para manter contato com o inglês. Marque cada etapa quando terminar.</p>
+    <div class="hero" style="padding:18px;margin:16px 0">
+      <div class="eyebrow">META DE HOJE</div><div style="font-size:25px;font-weight:850;margin:5px 0"><span id="dailyDoneCount">0</span> de 4 etapas</div>
+      <div class="progress" style="margin:12px 0 0"><i id="dailyProgressBar"></i></div>
+    </div>
+    <div id="dailyTasks" class="answers"></div>
+    <p id="dailyEncouragement" style="color:var(--muted);font-size:13px;margin-top:16px">Pequenos passos constroem consistência.</p>
+    <button class="btn secondary full" style="margin-top:10px" onclick="resetDailyPlan()">Reiniciar etapas de hoje</button>
+  </section>
+
+  <section id="dailyVocabulary" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">CONTEÚDO DIÁRIO</span></div>
+    <div class="eyebrow">UM NOVO CONJUNTO TODOS OS DIAS</div>
+    <h1 style="font-size:34px">Palavras úteis de hoje.</h1>
+    <p class="lead">Aprenda palavras e expressões essenciais em pequenos conjuntos. O conteúdo muda a cada dia e pode ser ouvido ou salvo nos favoritos.</p>
+    <div class="hero" style="padding:16px;margin:14px 0">
+      <div class="eyebrow" id="dailyVocabDay">DIA 1</div>
+      <div style="font-size:21px;font-weight:850;margin-top:5px" id="dailyVocabTheme">No dia a dia</div>
+      <small style="color:var(--muted)">4 palavras + 2 expressões novas neste conjunto</small>
+    </div>
+    <div id="dailyVocabCards" class="answers"></div>
+    <button id="dailyVocabComplete" class="btn full" style="margin-top:14px" onclick="completeDailyVocabulary()">Concluir estudo de hoje · +10 XP</button>
+    <p id="dailyVocabStatus" style="color:var(--muted);font-size:12px;margin-top:10px"></p>
+  </section>
+
+  <section id="profile" class="screen">
+    <div class="topline"><button class="back" onclick="goHome()">← Início</button><span class="pill">SEU PERFIL</span></div>
+    <div class="eyebrow">SUA EVOLUÇÃO</div><h1 style="font-size:34px">Olá, <span id="profileNameTitle">Estudante</span>.</h1>
+    <div class="hero" style="margin:18px 0">
+      <div style="display:flex;align-items:center;gap:14px"><div class="logo" style="width:58px;height:58px;border-radius:18px;font-size:24px">✦</div><div><div style="font-size:20px;font-weight:850" id="profileName">Estudante</div><div class="eyebrow" id="profileLevel">NÍVEL 1 · INICIANTE</div></div></div>
+      <div class="stats" style="margin-bottom:0">
+        <div class="stat"><b id="profileXp">0</b><span>XP</span></div>
+        <div class="stat"><b id="profileRounds">0</b><span>RODADAS</span></div>
+        <div class="stat"><b id="profileStreak">0</b><span>DIAS SEGUIDOS</span></div>
+      </div>
+    </div>
+    <div class="section-head"><h2>Seu nome</h2></div>
+    <div style="display:flex;gap:8px"><input id="nameInput" maxlength="22" placeholder="Como quer ser chamado?" style="min-width:0;flex:1;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit"><button class="btn" onclick="saveName()">Salvar</button></div>
+    <div class="section-head"><h2>Conquistas</h2><small id="achievementCount">0 desbloqueadas</small></div>
+    <div id="achievementList" class="answers"></div>
+  </section>
+
+  <section id="listening" class="screen">
+    <div class="topline"><button class="back" onclick="stopListening();goHome()">← Início</button><span class="pill">COMPREENSÃO ORAL</span></div>
+    <div class="eyebrow">TREINO PELO OUVIDO</div>
+    <h1 style="font-size:34px">Que palavra você ouviu?</h1>
+    <p class="lead">Ouça com atenção e escolha a palavra em inglês correspondente ao áudio.</p>
+    <div class="question-card">
+      <div style="font-size:48px;margin-bottom:8px">🎧</div>
+      <p id="listenCounter">QUESTÃO 1/10</p>
+      <div class="word" style="font-size:24px">Listen carefully</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn" onclick="playListeningWord(1)">🔊 Ouvir normal</button>
+        <button class="btn secondary" onclick="playListeningWord(.35)">🐢 Ouvir devagar</button>
+      </div>
+      <p id="listenStatus" style="font-size:12px;color:var(--muted);margin-top:12px">O áudio será reproduzido em inglês.</p>
+    </div>
+    <div class="answers" id="listenAnswers"></div>
+    <div class="feedback" id="listenFeedback"></div>
+    <button id="listenNext" class="btn full" style="display:none;margin-top:14px" onclick="nextListeningQuestion()">Próxima questão →</button>
+  </section>
+</main>
+<script>
+const BANK = [
+ {en:"APPLE",pt:"MAÇÃ",cat:"Alimentos",level:1},{en:"BREAD",pt:"PÃO",cat:"Alimentos",level:1},{en:"WATER",pt:"ÁGUA",cat:"Alimentos",level:1},{en:"MILK",pt:"LEITE",cat:"Alimentos",level:1},{en:"CHEESE",pt:"QUEIJO",cat:"Alimentos",level:2},{en:"STRAWBERRY",pt:"MORANGO",cat:"Alimentos",level:2},
+ {en:"DOG",pt:"CACHORRO",cat:"Animais",level:1},{en:"CAT",pt:"GATO",cat:"Animais",level:1},{en:"BIRD",pt:"PÁSSARO",cat:"Animais",level:1},{en:"HORSE",pt:"CAVALO",cat:"Animais",level:1},{en:"TURTLE",pt:"TARTARUGA",cat:"Animais",level:2},{en:"BUTTERFLY",pt:"BORBOLETA",cat:"Animais",level:2},
+ {en:"HOUSE",pt:"CASA",cat:"Casa",level:1},{en:"DOOR",pt:"PORTA",cat:"Casa",level:1},{en:"WINDOW",pt:"JANELA",cat:"Casa",level:1},{en:"KITCHEN",pt:"COZINHA",cat:"Casa",level:2},{en:"BEDROOM",pt:"QUARTO",cat:"Casa",level:2},
+ {en:"HELLO",pt:"OLÁ",cat:"Básico",level:1},{en:"GOODBYE",pt:"TCHAU",cat:"Básico",level:1},{en:"PLEASE",pt:"POR FAVOR",cat:"Básico",level:1},{en:"THANK YOU",pt:"OBRIGADO(A)",cat:"Básico",level:1},{en:"SORRY",pt:"DESCULPA",cat:"Básico",level:1},
+ {en:"MOUNTAIN",pt:"MONTANHA",cat:"Natureza",level:2},{en:"RIVER",pt:"RIO",cat:"Natureza",level:1},{en:"FOREST",pt:"FLORESTA",cat:"Natureza",level:2},{en:"ENVIRONMENT",pt:"MEIO AMBIENTE",cat:"Natureza",level:3},
+ {en:"AIRPORT",pt:"AEROPORTO",cat:"Viagens",level:2},{en:"TICKET",pt:"PASSAGEM",cat:"Viagens",level:2},{en:"SUITCASE",pt:"MALA",cat:"Viagens",level:2},{en:"JOURNEY",pt:"JORNADA / VIAGEM",cat:"Viagens",level:3},
+ {en:"BEAUTIFUL",pt:"BONITO(A)",cat:"Adjetivos",level:2},{en:"DIFFICULT",pt:"DIFÍCIL",cat:"Adjetivos",level:2},{en:"FREEDOM",pt:"LIBERDADE",cat:"Adjetivos",level:3},{en:"KNOWLEDGE",pt:"CONHECIMENTO",cat:"Adjetivos",level:3},
+ {en:"ORANGE",pt:"LARANJA",cat:"Alimentos",level:1},{en:"RICE",pt:"ARROZ",cat:"Alimentos",level:1},{en:"EGG",pt:"OVO",cat:"Alimentos",level:1},{en:"CHICKEN",pt:"FRANGO",cat:"Alimentos",level:1},{en:"POTATO",pt:"BATATA",cat:"Alimentos",level:1},{en:"SUGAR",pt:"AÇÚCAR",cat:"Alimentos",level:1},{en:"BREAKFAST",pt:"CAFÉ DA MANHÃ",cat:"Alimentos",level:2},{en:"VEGETABLE",pt:"LEGUME / VERDURA",cat:"Alimentos",level:2},
+ {en:"FISH",pt:"PEIXE",cat:"Animais",level:1},{en:"LION",pt:"LEÃO",cat:"Animais",level:1},{en:"ELEPHANT",pt:"ELEFANTE",cat:"Animais",level:2},{en:"MONKEY",pt:"MACACO",cat:"Animais",level:1},{en:"RABBIT",pt:"COELHO",cat:"Animais",level:1},{en:"SNAKE",pt:"COBRA",cat:"Animais",level:2},
+ {en:"TABLE",pt:"MESA",cat:"Casa",level:1},{en:"CHAIR",pt:"CADEIRA",cat:"Casa",level:1},{en:"BATHROOM",pt:"BANHEIRO",cat:"Casa",level:2},{en:"WALL",pt:"PAREDE",cat:"Casa",level:1},{en:"FLOOR",pt:"CHÃO / PISO",cat:"Casa",level:2},
+ {en:"GOOD MORNING",pt:"BOM DIA",cat:"Básico",level:1},{en:"GOOD NIGHT",pt:"BOA NOITE",cat:"Básico",level:1},{en:"HOW ARE YOU?",pt:"COMO VOCÊ ESTÁ?",cat:"Básico",level:1},{en:"SEE YOU LATER",pt:"ATÉ MAIS TARDE",cat:"Básico",level:2},{en:"YOU'RE WELCOME",pt:"DE NADA",cat:"Básico",level:2},
+ {en:"SUN",pt:"SOL",cat:"Natureza",level:1},{en:"MOON",pt:"LUA",cat:"Natureza",level:1},{en:"STAR",pt:"ESTRELA",cat:"Natureza",level:1},{en:"RAIN",pt:"CHUVA",cat:"Natureza",level:1},{en:"OCEAN",pt:"OCEANO",cat:"Natureza",level:2},{en:"WILDLIFE",pt:"VIDA SELVAGEM",cat:"Natureza",level:3},
+ {en:"PASSPORT",pt:"PASSAPORTE",cat:"Viagens",level:2},{en:"TRAIN",pt:"TREM",cat:"Viagens",level:1},{en:"FLIGHT",pt:"VOO",cat:"Viagens",level:2},{en:"MAP",pt:"MAPA",cat:"Viagens",level:1},{en:"RESERVATION",pt:"RESERVA",cat:"Viagens",level:3},
+ {en:"HAPPY",pt:"FELIZ",cat:"Adjetivos",level:1},{en:"STRONG",pt:"FORTE",cat:"Adjetivos",level:1},{en:"CAREFUL",pt:"CUIDADOSO(A)",cat:"Adjetivos",level:2},{en:"BRAVE",pt:"CORAJOSO(A)",cat:"Adjetivos",level:2},{en:"CHALLENGING",pt:"DESAFIADOR(A)",cat:"Adjetivos",level:3},
+
+ {en:"I AM LEARNING ENGLISH",pt:"EU ESTOU APRENDENDO INGLÊS",cat:"Frases",level:2},{en:"WHERE IS THE AIRPORT?",pt:"ONDE FICA O AEROPORTO?",cat:"Frases",level:2},{en:"I DON'T UNDERSTAND",pt:"EU NÃO ENTENDO",cat:"Frases",level:2},{en:"CAN YOU HELP ME?",pt:"VOCÊ PODE ME AJUDAR?",cat:"Frases",level:2},{en:"HOW MUCH IS IT?",pt:"QUANTO CUSTA?",cat:"Frases",level:2},{en:"NICE TO MEET YOU",pt:"PRAZER EM CONHECER VOCÊ",cat:"Frases",level:2},{en:"I WOULD LIKE SOME WATER",pt:"EU GOSTARIA DE UM POUCO DE ÁGUA",cat:"Frases",level:3},{en:"WHAT TIME IS IT?",pt:"QUE HORAS SÃO?",cat:"Frases",level:1}
+
+
+ ,
+ {en:"GOOD MORNING",pt:"BOM DIA",cat:"Cumprimentos",level:1},
+ {en:"GOOD AFTERNOON",pt:"BOA TARDE",cat:"Cumprimentos",level:1},
+ {en:"GOOD EVENING",pt:"BOA NOITE (AO CHEGAR)",cat:"Cumprimentos",level:1},
+ {en:"GOOD NIGHT",pt:"BOA NOITE (AO SE DESPEDIR / DORMIR)",cat:"Cumprimentos",level:1},
+ {en:"HELLO",pt:"OLÁ",cat:"Cumprimentos",level:1},
+ {en:"HI",pt:"OI",cat:"Cumprimentos",level:1},
+ {en:"HOW ARE YOU?",pt:"TUDO BEM? / COMO VOCÊ ESTÁ?",cat:"Cumprimentos",level:1},
+ {en:"I'M FINE, THANK YOU",pt:"ESTOU BEM, OBRIGADO(A)",cat:"Cumprimentos",level:1},
+ {en:"AND YOU?",pt:"E VOCÊ?",cat:"Cumprimentos",level:1},
+ {en:"NICE TO MEET YOU",pt:"PRAZER EM CONHECER VOCÊ",cat:"Cumprimentos",level:1},
+ {en:"SEE YOU LATER",pt:"ATÉ MAIS TARDE",cat:"Cumprimentos",level:1},
+ {en:"TAKE CARE",pt:"SE CUIDA",cat:"Cumprimentos",level:1},
+ {en:"HAVE A NICE DAY",pt:"TENHA UM BOM DIA",cat:"Cumprimentos",level:1},
+ {en:"WHAT'S YOUR NAME?",pt:"QUAL É O SEU NOME?",cat:"Cumprimentos",level:1},
+ {en:"MY NAME IS...",pt:"MEU NOME É...",cat:"Cumprimentos",level:1},
+ {en:"WHERE ARE YOU FROM?",pt:"DE ONDE VOCÊ É?",cat:"Cumprimentos",level:1},
+ {en:"I'M FROM BRAZIL",pt:"EU SOU DO BRASIL",cat:"Cumprimentos",level:1},
+
+ {en:"WHAT'S UP?",pt:"E AÍ? / QUAL É A BOA?",cat:"Informal",level:1},
+ {en:"HOW'S IT GOING?",pt:"COMO VÃO AS COISAS?",cat:"Informal",level:2},
+ {en:"NOT MUCH",pt:"NADA DEMAIS",cat:"Informal",level:1},
+ {en:"I'M GOOD",pt:"TÔ BEM",cat:"Informal",level:1},
+ {en:"NO WAY!",pt:"NÃO ACREDITO! / SÉRIO?",cat:"Informal",level:1},
+ {en:"REALLY?",pt:"SÉRIO?",cat:"Informal",level:1},
+ {en:"COOL!",pt:"LEGAL! / BACANA!",cat:"Informal",level:1},
+ {en:"THAT'S OK",pt:"TUDO BEM / SEM PROBLEMA",cat:"Informal",level:1},
+ {en:"NO WORRIES",pt:"SEM PROBLEMA / RELAXA",cat:"Informal",level:2},
+ {en:"MY BAD",pt:"FOI MAL / ERRO MEU",cat:"Informal",level:2},
+ {en:"I GET IT",pt:"ENTENDI / SACO",cat:"Informal",level:1},
+ {en:"I DON'T GET IT",pt:"NÃO ENTENDI / NÃO SACO",cat:"Informal",level:1},
+ {en:"HANG ON",pt:"ESPERA AÍ",cat:"Informal",level:2},
+ {en:"SEE YA",pt:"ATÉ MAIS (INFORMAL)",cat:"Informal",level:2},
+ {en:"BYE",pt:"TCHAU",cat:"Informal",level:1},
+ {en:"THANKS",pt:"VALEU / OBRIGADO(A)",cat:"Informal",level:1},
+ {en:"THANKS A LOT",pt:"MUITO OBRIGADO(A)",cat:"Informal",level:1},
+
+ {en:"WHAT ARE YOU DOING?",pt:"O QUE VOCÊ ESTÁ FAZENDO?",cat:"Conversas do dia a dia",level:1},
+ {en:"I'M JUST GETTING HOME",pt:"ACABEI DE CHEGAR EM CASA",cat:"Conversas do dia a dia",level:2},
+ {en:"I'M ON MY WAY",pt:"ESTOU A CAMINHO",cat:"Conversas do dia a dia",level:1},
+ {en:"I'LL BE RIGHT BACK",pt:"JÁ VOLTO",cat:"Conversas do dia a dia",level:1},
+ {en:"WAIT A MINUTE",pt:"ESPERE UM MINUTO",cat:"Conversas do dia a dia",level:1},
+ {en:"CAN YOU REPEAT THAT?",pt:"VOCÊ PODE REPETIR?",cat:"Conversas do dia a dia",level:1},
+ {en:"SPEAK SLOWLY, PLEASE",pt:"FALE DEVAGAR, POR FAVOR",cat:"Conversas do dia a dia",level:1},
+ {en:"I DON'T UNDERSTAND",pt:"EU NÃO ENTENDO",cat:"Conversas do dia a dia",level:1},
+ {en:"I UNDERSTAND",pt:"EU ENTENDO",cat:"Conversas do dia a dia",level:1},
+ {en:"WHAT DO YOU MEAN?",pt:"O QUE VOCÊ QUER DIZER?",cat:"Conversas do dia a dia",level:2},
+ {en:"LET ME THINK",pt:"DEIXA EU PENSAR",cat:"Conversas do dia a dia",level:1},
+ {en:"I DON'T KNOW",pt:"EU NÃO SEI",cat:"Conversas do dia a dia",level:1},
+ {en:"MAYBE",pt:"TALVEZ",cat:"Conversas do dia a dia",level:1},
+ {en:"OF COURSE",pt:"CLARO",cat:"Conversas do dia a dia",level:1},
+ {en:"IT DEPENDS",pt:"DEPENDE",cat:"Conversas do dia a dia",level:2},
+ {en:"THAT SOUNDS GOOD",pt:"PARECE BOM",cat:"Conversas do dia a dia",level:2},
+
+ {en:"I'M HUNGRY",pt:"ESTOU COM FOME",cat:"Em casa",level:1},
+ {en:"I'M THIRSTY",pt:"ESTOU COM SEDE",cat:"Em casa",level:1},
+ {en:"I'M TIRED",pt:"ESTOU CANSADO(A)",cat:"Em casa",level:1},
+ {en:"I'M GOING TO BED",pt:"VOU DORMIR",cat:"Em casa",level:1},
+ {en:"WHERE IS THE BATHROOM?",pt:"ONDE FICA O BANHEIRO?",cat:"Em casa",level:1},
+ {en:"TURN ON THE LIGHT",pt:"ACENDA A LUZ",cat:"Em casa",level:2},
+ {en:"CLEAN YOUR ROOM",pt:"ARRUME / LIMPE SEU QUARTO",cat:"Em casa",level:2},
+ {en:"I'M AT HOME",pt:"ESTOU EM CASA",cat:"Em casa",level:1},
+
+ {en:"CAN I HAVE A COFFEE?",pt:"PODE ME TRAZER UM CAFÉ?",cat:"Comida e pedidos",level:1},
+ {en:"WATER, PLEASE",pt:"ÁGUA, POR FAVOR",cat:"Comida e pedidos",level:1},
+ {en:"THE MENU, PLEASE",pt:"O CARDÁPIO, POR FAVOR",cat:"Comida e pedidos",level:1},
+ {en:"I WOULD LIKE THIS",pt:"EU GOSTARIA DESTE",cat:"Comida e pedidos",level:2},
+ {en:"HOW MUCH IS IT?",pt:"QUANTO CUSTA?",cat:"Comida e pedidos",level:1},
+ {en:"THE BILL, PLEASE",pt:"A CONTA, POR FAVOR",cat:"Comida e pedidos",level:1},
+ {en:"IT'S DELICIOUS",pt:"ESTÁ DELICIOSO",cat:"Comida e pedidos",level:1},
+ {en:"TAKEAWAY, PLEASE",pt:"PARA VIAGEM, POR FAVOR",cat:"Comida e pedidos",level:2},
+
+ {en:"I'M AT WORK",pt:"ESTOU NO TRABALHO",cat:"Trabalho e estudos",level:1},
+ {en:"I'M STUDYING",pt:"ESTOU ESTUDANDO",cat:"Trabalho e estudos",level:1},
+ {en:"I HAVE A QUESTION",pt:"TENHO UMA PERGUNTA",cat:"Trabalho e estudos",level:1},
+ {en:"I NEED HELP",pt:"PRECISO DE AJUDA",cat:"Trabalho e estudos",level:1},
+ {en:"WHAT TIME DOES IT START?",pt:"QUE HORAS COMEÇA?",cat:"Trabalho e estudos",level:2},
+ {en:"I'M BUSY RIGHT NOW",pt:"ESTOU OCUPADO(A) AGORA",cat:"Trabalho e estudos",level:2},
+
+ {en:"I'M JUST LOOKING",pt:"ESTOU SÓ DANDO UMA OLHADA",cat:"Compras e serviços",level:2},
+ {en:"DO YOU HAVE THIS IN ANOTHER SIZE?",pt:"VOCÊ TEM ISTO EM OUTRO TAMANHO?",cat:"Compras e serviços",level:2},
+ {en:"CAN I PAY BY CARD?",pt:"POSSO PAGAR COM CARTÃO?",cat:"Compras e serviços",level:1},
+ {en:"I'LL TAKE IT",pt:"VOU LEVAR",cat:"Compras e serviços",level:1},
+ {en:"IT'S TOO EXPENSIVE",pt:"É MUITO CARO",cat:"Compras e serviços",level:1},
+
+ {en:"WHERE IS THE BUS STOP?",pt:"ONDE FICA O PONTO DE ÔNIBUS?",cat:"Transporte e lugares",level:1},
+ {en:"HOW DO I GET THERE?",pt:"COMO EU CHEGO LÁ?",cat:"Transporte e lugares",level:2},
+ {en:"GO STRAIGHT",pt:"SIGA EM FRENTE",cat:"Transporte e lugares",level:1},
+ {en:"TURN LEFT",pt:"VIRE À ESQUERDA",cat:"Transporte e lugares",level:1},
+ {en:"TURN RIGHT",pt:"VIRE À DIREITA",cat:"Transporte e lugares",level:1},
+ {en:"I NEED A TAXI",pt:"PRECISO DE UM TÁXI",cat:"Transporte e lugares",level:1},
+
+ {en:"EXCUSE ME",pt:"COM LICENÇA",cat:"Frases úteis",level:1},
+ {en:"I'M SORRY",pt:"SINTO MUITO / DESCULPE",cat:"Frases úteis",level:1},
+ {en:"NO PROBLEM",pt:"SEM PROBLEMA",cat:"Frases úteis",level:1},
+ {en:"AFTER YOU",pt:"DEPOIS DE VOCÊ / PODE IR",cat:"Frases úteis",level:2},
+ {en:"JUST A MOMENT",pt:"SÓ UM MOMENTO",cat:"Frases úteis",level:1},
+ {en:"THAT'S ALL",pt:"É SÓ ISSO",cat:"Frases úteis",level:1}
+
+];
+const DAILY_VOCAB_PACKS = [
+ {theme:"Em casa",items:[["CLEAN","LIMPAR"],["MESSY","BAGUNÇADO"],["TOWEL","TOALHA"],["KEYS","CHAVES"],["Can you open the door?","Você pode abrir a porta?"],["I'm getting ready.","Estou me arrumando."]]},
+ {theme:"Rotina e horários",items:[["EARLY","CEDO"],["LATE","ATRASADO / TARDE"],["ALWAYS","SEMPRE"],["SOMETIMES","ÀS VEZES"],["What time do you wake up?","Que horas você acorda?"],["I'm in a hurry.","Estou com pressa."]]},
+ {theme:"Comida e mercado",items:[["FORK","GARFO"],["SPOON","COLHER"],["BOTTLE","GARRAFA"],["CHEAP","BARATO"],["Could I see the menu?","Posso ver o cardápio?"],["The food is delicious.","A comida está deliciosa."]]},
+ {theme:"Conversa cotidiana",items:[["REALLY","SÉRIO? / REALMENTE"],["MAYBE","TALVEZ"],["ALREADY","JÁ"],["AGAIN","NOVAMENTE"],["What do you mean?","O que você quer dizer?"],["That sounds good.","Isso parece bom."]]},
+ {theme:"Trabalho e estudos",items:[["MEETING","REUNIÃO"],["HOMEWORK","LIÇÃO DE CASA"],["BREAK","PAUSA / INTERVALO"],["SCHEDULE","AGENDA / CRONOGRAMA"],["I'm busy right now.","Estou ocupado agora."],["I'll be back soon.","Volto em breve."]]},
+ {theme:"Compras e serviços",items:[["RECEIPT","RECIBO"],["CASH","DINHEIRO EM ESPÉCIE"],["SIZE","TAMANHO"],["CHANGE","TROCO"],["Do you have this in a smaller size?","Você tem isso em um tamanho menor?"],["Can I pay by card?","Posso pagar com cartão?"]]},
+ {theme:"Cidade e direções",items:[["CORNER","ESQUINA"],["CROSSROAD","CRUZAMENTO"],["NEARBY","NAS PROXIMIDADES"],["STRAIGHT","EM FRENTE / RETO"],["Is it far from here?","É longe daqui?"],["How can I get there?","Como posso chegar lá?"]]},
+ {theme:"Saúde e bem-estar",items:[["HEADACHE","DOR DE CABEÇA"],["TIRED","CANSADO"],["THIRSTY","COM SEDE"],["REST","DESCANSAR / DESCANSO"],["I don't feel well.","Não estou me sentindo bem."],["I need some water.","Preciso de um pouco de água."]]},
+ {theme:"Viagem",items:[["LUGGAGE","BAGAGEM"],["GATE","PORTÃO DE EMBARQUE"],["DELAY","ATRASO"],["BOOKING","RESERVA"],["Where is the baggage claim?","Onde fica a retirada de bagagens?"],["My flight is delayed.","Meu voo está atrasado."]]},
+ {theme:"Tempo e clima",items:[["CLOUDY","NUBLADO"],["WINDY","VENTANDO"],["WARM","MORNO / QUENTE"],["COLD","FRIO"],["What's the weather like?","Como está o tempo?"],["It might rain today.","Pode chover hoje."]]},
+ {theme:"Sentimentos",items:[["EXCITED","ANIMADO / EMPOLGADO"],["WORRIED","PREOCUPADO"],["PROUD","ORGULHOSO"],["BORED","ENTEDIADO"],["I'm happy for you.","Fico feliz por você."],["Don't worry about it.","Não se preocupe com isso."]]},
+ {theme:"Tecnologia",items:[["CHARGER","CARREGADOR"],["BATTERY","BATERIA"],["PASSWORD","SENHA"],["SCREEN","TELA"],["My phone is out of battery.","Meu celular está sem bateria."],["What's the Wi-Fi password?","Qual é a senha do Wi-Fi?"]]},
+ {theme:"Planos e convites",items:[["AVAILABLE","DISPONÍVEL"],["WEEKEND","FIM DE SEMANA"],["LATER","MAIS TARDE"],["INVITE","CONVITE / CONVIDAR"],["Are you free tomorrow?","Você está livre amanhã?"],["Let's meet at six.","Vamos nos encontrar às seis."]]},
+ {theme:"Pedir ajuda",items:[["EXPLAIN","EXPLICAR"],["REPEAT","REPETIR"],["SLOWLY","DEVAGAR"],["UNDERSTAND","ENTENDER"],["Could you speak more slowly?","Você poderia falar mais devagar?"],["Could you repeat that, please?","Você poderia repetir, por favor?"]]},
+ {theme:"Pequenas conversas",items:[["NEIGHBOR","VIZINHO"],["WEATHER","CLIMA / TEMPO"],["HOBBY","PASSATEMPO"],["WEEKDAY","DIA DE SEMANA"],["How was your day?","Como foi seu dia?"],["It was nice talking to you.","Foi bom conversar com você."]]},
+ {theme:"No restaurante",items:[["ORDER","PEDIDO / PEDIR"],["DESSERT","SOBREMESA"],["SPICY","PICANTE"],["CHECK","CONTA"],["Could we have the bill, please?","Poderíamos receber a conta, por favor?"],["I'm ready to order.","Estou pronto para pedir."]]},
+ {theme:"Natureza",items:[["LEAF","FOLHA"],["BRANCH","GALHO"],["WILDLIFE","VIDA SELVAGEM"],["ENVIRONMENT","MEIO AMBIENTE"],["The weather is beautiful today.","O tempo está lindo hoje."],["Let's go for a walk.","Vamos dar uma caminhada."]]},
+ {theme:"Tempo livre",items:[["MOVIE","FILME"],["BOOK","LIVRO"],["GAME","JOGO"],["MUSIC","MÚSICA"],["What are you watching?","O que você está assistindo?"],["I really enjoy reading.","Eu gosto muito de ler."]]},
+ {theme:"Resolver problemas",items:[["BROKEN","QUEBRADO"],["LOST","PERDIDO"],["PROBLEM","PROBLEMA"],["FIX","CONSERTO / CONSERTAR"],["Something is wrong.","Algo está errado."],["Can you help me with this?","Você pode me ajudar com isto?"]]},
+ {theme:"Revisão essencial",items:[["ENOUGH","SUFICIENTE"],["IMPORTANT","IMPORTANTE"],["DIFFERENT","DIFERENTE"],["TOGETHER","JUNTOS"],["I agree with you.","Eu concordo com você."],["It depends.","Depende."]]}
+];
+const DAILY_VOCAB_START_KEY="em_daily_vocab_start";
+function dailyVocabIndex(){
+ const today=todayKey();let start=localStorage.getItem(DAILY_VOCAB_START_KEY);
+ if(!start){start=today;localStorage.setItem(DAILY_VOCAB_START_KEY,start)}
+ const a=new Date(start+"T12:00:00"),b=new Date(today+"T12:00:00");
+ const days=Math.max(0,Math.floor((b-a)/86400000));
+ return days%DAILY_VOCAB_PACKS.length;
+}
+function showDailyVocabulary(){show("dailyVocabulary");renderDailyVocabulary()}
+function renderDailyVocabulary(){
+ const idx=dailyVocabIndex(),pack=DAILY_VOCAB_PACKS[idx],cards=document.getElementById("dailyVocabCards");
+ document.getElementById("dailyVocabDay").textContent=`CONJUNTO ${idx+1} DE ${DAILY_VOCAB_PACKS.length}`;
+ document.getElementById("dailyVocabTheme").textContent=pack.theme;
+ cards.innerHTML=pack.items.map((item,i)=>{
+  const phrase=i>=4, en=item[0],saved=favorites.includes(en);
+  return `<div class="answer" style="display:block"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:23px">${phrase?"💬":"📘"}</div><div style="flex:1;min-width:0"><b>${en}</b><div style="color:var(--muted);font-size:13px;margin-top:4px">${item[1]}</div><small style="color:var(--green)">${phrase?"EXPRESSÃO":"PALAVRA"}</small></div><button class="btn secondary" style="padding:8px;font-size:12px" onclick="speakEnglish(${JSON.stringify(en)},0.75)">🔊</button><button class="star-btn ${saved?"saved":""}" onclick="toggleFavorite('${encodeURIComponent(en)}')" aria-label="Salvar favorito">${saved?"★":"☆"}</button></div></div>`;
+ }).join("");
+ const done=loadDaily().done||[];
+ const complete=done.includes("vocab");
+ document.getElementById("dailyVocabComplete").disabled=complete;
+ document.getElementById("dailyVocabComplete").textContent=complete?"Estudo de hoje concluído ✓":"Concluir estudo de hoje · +10 XP";
+ document.getElementById("dailyVocabStatus").textContent=complete?"Você já concluiu o conjunto de hoje. O próximo chega na próxima data.":"Salve as expressões importantes e ouça a pronúncia. O conjunto muda diariamente.";
+}
+function completeDailyVocabulary(){
+ const done=loadDaily().done||[];
+ if(done.includes("vocab"))return;
+ dailyDone=[...new Set([...done,"vocab"])];saveDaily();
+ stats.xp+=10;saveStats();registerStudyDay();
+ renderDailyVocabulary();
+}
+
+const PRONUNCIATION = {"APPLE": "É-pəl", "BREAD": "bréd", "WATER": "uó-ter", "MILK": "mílк", "CHEESE": "tchíiz", "STRAWBERRY": "stró-bé-ri", "DOG": "dóg", "CAT": "két", "BIRD": "bârd", "HORSE": "hórs", "TURTLE": "târ-təl", "BUTTERFLY": "bâ-ter-flái", "HOUSE": "háus", "DOOR": "dór", "WINDOW": "uíndou", "KITCHEN": "kítchən", "BEDROOM": "béd-rum", "HELLO": "rə-lôu", "GOODBYE": "gud-bái", "PLEASE": "plíiz", "THANK YOU": "thénk iú", "SORRY": "só-ri", "MOUNTAIN": "máun-tən", "RIVER": "rí-ver", "FOREST": "fó-rest", "ENVIRONMENT": "en-vái-rən-ment", "AIRPORT": "ér-pórt", "TICKET": "tí-kət", "SUITCASE": "sút-keis", "JOURNEY": "djâr-ni", "BEAUTIFUL": "biú-ti-fəl", "DIFFICULT": "dí-fi-kəlt", "FREEDOM": "frí-dəm", "KNOWLEDGE": "ná-lədj", "ORANGE": "ór-indj", "RICE": "ráis", "EGG": "ég", "CHICKEN": "tchí-kən", "POTATO": "pə-têi-tou", "SUGAR": "shú-gər", "BREAKFAST": "brék-fəst", "VEGETABLE": "védj-tə-bəl", "FISH": "físh", "LION": "lái-ən", "ELEPHANT": "é-lə-fənt", "MONKEY": "mân-ki", "RABBIT": "ré-bit", "SNAKE": "sneik", "TABLE": "têi-bəl", "CHAIR": "tchér", "BATHROOM": "béth-rum", "WALL": "uól", "FLOOR": "flór", "GOOD MORNING": "gud mór-ning", "GOOD NIGHT": "gud náit", "HOW ARE YOU?": "háu ar iú", "SEE YOU LATER": "sí iú lêi-ter", "YOU'RE WELCOME": "iúr uél-kəm", "SUN": "sân", "MOON": "mún", "STAR": "stár", "RAIN": "rein", "OCEAN": "ôu-shən", "WILDLIFE": "uáild-laif", "PASSPORT": "pés-pórt", "TRAIN": "trein", "FLIGHT": "fláit", "MAP": "mép", "RESERVATION": "ré-zər-vêi-shən", "HAPPY": "hé-pi", "STRONG": "stróng", "CAREFUL": "kér-fəl", "BRAVE": "breiv", "CHALLENGING": "tchá-lən-djing", "I AM LEARNING ENGLISH": "ái ém lâr-ning ínglish", "WHERE IS THE AIRPORT?": "uér iz dhi ér-pórt", "I DON'T UNDERSTAND": "ái dôunt ân-der-sténd", "CAN YOU HELP ME?": "kén iú hélp mi", "HOW MUCH IS IT?": "háu mâtch iz it", "NICE TO MEET YOU": "náis tə míit iú", "I WOULD LIKE SOME WATER": "ái wud láik sâm uó-ter", "WHAT TIME IS IT?": "uót táim iz it"};
+DAILY_VOCAB_PACKS.forEach(pack=>pack.items.forEach((item)=>{if(!BANK.some(q=>q.en.toLowerCase()===item[0].toLowerCase()))BANK.push({en:item[0],pt:item[1].toUpperCase(),cat:"Palavras úteis",level:1})}));
+const CAT_META=[
+ ["Cumprimentos","☀","Bom dia, olá e tudo bem"],
+ ["Conversas do dia a dia","☏","Perguntas e respostas comuns"],
+ ["Informal","☺","Jeito casual de falar"],
+ ["Em casa","⌂","Rotina e tarefas"],
+ ["Comida e pedidos","☕","Restaurantes, lanches e mercado"],
+ ["Trabalho e estudos","▤","Escola, trabalho e rotina"],
+ ["Compras e serviços","▧","Lojas, preços e atendimento"],
+ ["Transporte e lugares","↗","Como chegar e se locomover"],
+ ["Frases úteis","✦","Expressões para situações comuns"],
+ ["Palavras úteis","＋","Vocabulário e expressões essenciais"]
+];
+let currentCategory="all", questions=[], qIndex=0, correct=0, earned=0, locked=false;
+let reviewMode=false, timedMode=false, secondsLeft=60, timerHandle=null;
+let wordStats=loadWordStats();
+let favorites=loadFavorites();
+let stats=loadStats();
+let profile=loadProfile();
+function loadProfile(){try{return JSON.parse(localStorage.getItem("em_profile"))||{name:"Estudante",lastDay:"",streak:0,days:[]}}catch(e){return{name:"Estudante",lastDay:"",streak:0,days:[]}}}
+function saveProfile(){localStorage.setItem("em_profile",JSON.stringify(profile))}
+function levelInfo(){const level=Math.floor(stats.xp/100)+1;const names=["","INICIANTE","EXPLORADOR","APRENDIZ","COMUNICADOR","AVANÇADO"];return {level,name:names[Math.min(level,names.length-1)]||"MESTRE",current:stats.xp%100,next:100}}
+function registerStudyDay(){const today=new Date().toLocaleDateString("en-CA");if(profile.lastDay!==today){const yesterday=new Date(Date.now()-86400000).toLocaleDateString("en-CA");profile.streak=profile.lastDay===yesterday?profile.streak+1:1;profile.lastDay=today;if(!profile.days.includes(today))profile.days.push(today);profile.days=profile.days.slice(-60);saveProfile()}}
+function loadStats(){try{return JSON.parse(localStorage.getItem("em_stats"))||{xp:0,done:0,attempts:0,correct:0}}catch(e){return{xp:0,done:0,attempts:0,correct:0}}}
+function saveStats(){localStorage.setItem("em_stats",JSON.stringify(stats));renderStats()}
+function loadWordStats(){try{return JSON.parse(localStorage.getItem("em_word_stats"))||{}}catch(e){return{}}}
+function loadFavorites(){try{const v=JSON.parse(localStorage.getItem("em_favorites"));return Array.isArray(v)?v:[]}catch(e){return[]}}
+function saveFavorites(){localStorage.setItem("em_favorites",JSON.stringify(favorites));renderFavoriteCount()}
+function isFavorite(en){return favorites.includes(en)}
+function toggleFavorite(encoded){const en=decodeURIComponent(encoded);favorites=isFavorite(en)?favorites.filter(x=>x!==en):[...favorites,en];saveFavorites();renderDictionary();if(document.getElementById("favorites").classList.contains("active"))renderFavorites();if(document.getElementById("dailyVocabulary")?.classList.contains("active"))renderDailyVocabulary()}
+function renderFavoriteCount(){const el=document.getElementById("favoriteCount");if(el)el.textContent=favorites.length+ (favorites.length===1?" item salvo":" itens salvos");const badge=document.getElementById("favoriteBadge");if(badge)badge.textContent=favorites.length}
+function saveWordStats(){localStorage.setItem("em_word_stats",JSON.stringify(wordStats))}
+function recordWord(q,ok){
+ const old=wordStats[q.en]||{correct:0,wrong:0,streak:0,due:0};
+ if(ok){old.correct++;old.streak++;old.due=Date.now()+Math.min(7,old.streak)*86400000}
+ else{old.wrong++;old.streak=0;old.due=Date.now()+10*60*1000}
+ wordStats[q.en]=old;saveWordStats();
+}
+function stopTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null}}
+function renderStats(){
+ document.getElementById("xp").textContent=stats.xp;document.getElementById("done").textContent=stats.attempts;document.getElementById("accuracy").textContent=stats.attempts?Math.round(stats.correct/stats.attempts*100)+"%":"—";
+ const li=levelInfo();const lp=document.getElementById("levelProgress");if(lp)lp.style.width=li.current+"%";
+ const lx=document.getElementById("levelXp");if(lx)lx.textContent=li.current;const nx=document.getElementById("nextLevelXp");if(nx)nx.textContent=li.next;
+ const ll=document.getElementById("levelLabel");if(ll)ll.textContent="NÍVEL "+li.level+" · "+li.name;
+ renderRewards();renderCategories();
+}
+
+const WRITE_SET=[
+ {pt:"Bom dia!",answers:["good morning"],hint:"Uma saudação usada pela manhã."},
+ {pt:"Como você está?",answers:["how are you","how are you?"],hint:"Começa com 'How'."},
+ {pt:"Eu estou aprendendo inglês.",answers:["i am learning english","i'm learning english"],hint:"Você pode usar 'I am' ou a contração 'I'm'."},
+ {pt:"Você pode me ajudar?",answers:["can you help me","can you help me?"],hint:"Começa com 'Can you'."},
+ {pt:"Muito prazer em conhecer você.",answers:["nice to meet you"],hint:"Uma expressão usada ao conhecer alguém."},
+ {pt:"Quanto custa?",answers:["how much is it","how much is it?"],hint:"Começa com 'How much'."},
+ {pt:"Eu não entendo.",answers:["i don't understand","i do not understand"],hint:"Use 'I don't' para dizer que não..." },
+ {pt:"Até mais tarde!",answers:["see you later"],hint:"Uma despedida comum."},
+ {pt:"Estou a caminho.",answers:["i am on my way","i'm on my way"],hint:"Use a expressão 'on my way'."},
+ {pt:"Um café, por favor.",answers:["a coffee please","a coffee, please"],hint:"Pedido curto e educado."}
+];
+let writeOrder=[],writeIndex=0,writeScore=0,writeLocked=false;
+function normalizeWriting(v){return v.toLocaleLowerCase("en").trim().replace(/[.,!?']/g,"").replace(/\s+/g," ")}
+function showWritingPractice(){
+ writeOrder=shuffle(WRITE_SET).slice(0,5);writeIndex=0;writeScore=0;writeLocked=false;show("writingPractice");renderWritingPrompt();
+}
+function renderWritingPrompt(){
+ const q=writeOrder[writeIndex];document.getElementById("writeCounter").textContent=`FRASE ${writeIndex+1}/${writeOrder.length}`;
+ document.getElementById("writeProgress").style.width=(writeIndex/writeOrder.length*100)+"%";
+ document.getElementById("writePrompt").textContent=q.pt;document.getElementById("writeHint").textContent="Dica: "+q.hint;
+ const input=document.getElementById("writeAnswer");input.value="";input.disabled=false;input.focus();
+ const fb=document.getElementById("writeFeedback");fb.className="feedback";fb.textContent="";
+ document.getElementById("checkWrite").style.display="block";document.getElementById("nextWrite").style.display="none";
+}
+function checkWritingAnswer(){
+ if(writeLocked)return;const q=writeOrder[writeIndex],v=normalizeWriting(document.getElementById("writeAnswer").value);
+ if(!v){document.getElementById("writeFeedback").textContent="Digite uma resposta antes de conferir.";document.getElementById("writeFeedback").className="feedback show";return}
+ writeLocked=true;const ok=q.answers.some(a=>normalizeWriting(a)===v);if(ok)writeScore++;
+ const fb=document.getElementById("writeFeedback");
+ fb.innerHTML=`<b>${ok?"Muito bem! Resposta correta.":"Boa tentativa! Confira uma resposta possível:"}</b><br><span style="font-size:18px;color:var(--text)">${q.answers[0]}</span><br><span style="font-size:12px">${ok?"Continue assim!":"Compare sua frase e observe a ordem das palavras."}</span>`;
+ fb.className="feedback show";document.getElementById("writeAnswer").disabled=true;
+ document.getElementById("checkWrite").style.display="none";
+ const next=document.getElementById("nextWrite");next.textContent=writeIndex===writeOrder.length-1?"Concluir →":"Próxima frase →";next.style.display="block";
+}
+function nextWritingPrompt(){
+ if(!writeLocked)return;
+ if(writeIndex<writeOrder.length-1){writeIndex++;writeLocked=false;renderWritingPrompt();return}
+ const xp=writeScore*5+5;stats.xp+=xp;stats.done++;registerStudyDay();saveStats();completeDailyTask("write");
+ document.getElementById("writePrompt").textContent=`${writeScore} de ${writeOrder.length} acertos`;
+ document.getElementById("writeHint").textContent=`Você ganhou ${xp} XP nesta prática.`;
+ document.getElementById("writeProgress").style.width="100%";
+ document.getElementById("writeFeedback").innerHTML="<b>Prática concluída!</b><br>Escrever ajuda a lembrar a estrutura das frases. Tente novamente para fixar.";
+ document.getElementById("writeFeedback").className="feedback show";
+ document.getElementById("nextWrite").style.display="none";
+ const b=document.getElementById("checkWrite");b.textContent="Fazer outra rodada";b.style.display="block";b.onclick=showWritingPractice;
+}
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function loadDaily(){try{const v=JSON.parse(localStorage.getItem("em_daily_plan"))||{};return v.date===todayKey()?v.done||[]:[]}catch(e){return[]}}
+let dailyDone=loadDaily();
+const DAILY_TASKS=[
+ {id:"words",icon:"📖",title:"Revisar 5 palavras",desc:"Faça exatamente cinco questões de revisão." ,action:"startReview(5)"},
+ {id:"listen",icon:"🎧",title:"Treinar a escuta",desc:"Faça uma rodada de compreensão oral.",action:"startListeningPractice()"},
+ {id:"write",icon:"✍️",title:"Escrever 5 frases",desc:"Pratique montar frases em inglês.",action:"showWritingPractice()"},
+ {id:"vocab",icon:"🆕",title:"Aprender palavras novas",desc:"Estude 4 palavras e 2 expressões do conjunto diário.",action:"showDailyVocabulary()"}
+];
+function saveDaily(){localStorage.setItem("em_daily_plan",JSON.stringify({date:todayKey(),done:dailyDone}))}
+function showDailyPlan(){dailyDone=loadDaily();show("dailyPlan");renderDailyPlan()}
+function renderDailyPlan(){
+ document.getElementById("dailyDoneCount").textContent=dailyDone.length;
+ document.getElementById("dailyProgressBar").style.width=(dailyDone.length/DAILY_TASKS.length*100)+"%";
+ document.getElementById("dailyTasks").innerHTML=DAILY_TASKS.map(t=>`<div class="answer" style="display:block"><div style="display:flex;gap:10px;align-items:center"><div style="font-size:24px">${t.icon}</div><div style="flex:1"><b>${t.title}</b><div style="color:var(--muted);font-size:12px">${t.desc}</div></div><button class="star-btn ${dailyDone.includes(t.id)?"saved":""}" onclick="toggleDailyTask('${t.id}')" aria-label="Marcar etapa">${dailyDone.includes(t.id)?"✓":"○"}</button></div><button class="btn secondary" style="padding:8px 12px;font-size:12px;margin-top:10px" onclick="${t.action}">Começar</button></div>`).join("");
+ document.getElementById("dailyEncouragement").textContent=dailyDone.length===DAILY_TASKS.length?"Meta de hoje concluída! Excelente consistência.":"Você pode fazer as etapas no seu ritmo. Um novo conjunto de palavras chega a cada dia.";
+}
+function toggleDailyTask(id){dailyDone=dailyDone.includes(id)?dailyDone.filter(x=>x!==id):[...dailyDone,id];saveDaily();renderDailyPlan()}
+function completeDailyTask(id){if(!dailyDone.includes(id)){dailyDone=[...dailyDone,id];saveDaily();if(document.getElementById("dailyPlan").classList.contains("active"))renderDailyPlan()}}
+function resetDailyPlan(){dailyDone=[];saveDaily();renderDailyPlan()}
+
+
+const TEACHER_LESSON=[
+ {topic:"APRESENTAÇÃO",prompt:"Hello! What's your name?",pt:"Olá! Qual é o seu nome?",hint:"Comece com “My name is...” ou “I'm...”.",answers:["my name is","i am","i'm"],examples:["My name is Ana.","I'm Ana."],explain:"Para dizer seu nome, use “My name is...” ou a forma curta “I'm...”.",keywords:["my name is","i am","i'm"]},
+ {topic:"ORIGEM",prompt:"Where are you from?",pt:"De onde você é?",hint:"Use “I'm from...” e o nome de um país ou cidade.",answers:["i am from","i'm from"],examples:["I'm from Brazil.","I am from Brazil."],explain:"“I'm from...” significa “Eu sou de...”. Depois, diga o lugar.",keywords:["i am from","i'm from"]},
+ {topic:"PREFERÊNCIAS",prompt:"What kind of music do you like?",pt:"De que tipo de música você gosta?",hint:"Você pode começar com “I like...”.",answers:["i like"],examples:["I like rock music.","I like pop music."],explain:"Use “I like...” para falar do que você gosta. Você pode completar com um estilo ou atividade.",keywords:["i like"]},
+ {topic:"ROTINA",prompt:"What do you do in the morning?",pt:"O que você faz de manhã?",hint:"Comece com “In the morning, I...”.",answers:["i","in the morning"],examples:["In the morning, I study.","I go to work in the morning."],explain:"Para falar da rotina, use o presente simples: “I study”, “I work”, “I have breakfast”.",keywords:["i"]},
+ {topic:"APRENDIZADO",prompt:"Why are you learning English?",pt:"Por que você está aprendendo inglês?",hint:"Comece com “I'm learning English because...”.",answers:["because","to travel","for work","i want"],examples:["I'm learning English because I want to travel.","I want to speak English."],explain:"Use “because” para explicar o motivo. Também pode dizer “I want to...” + verbo.",keywords:["because","i want","to travel","for work"]}
+];
+let teacherIndex=0,teacherLocked=false,teacherCorrect=0;
+function showVirtualTeacher(){teacherIndex=0;teacherCorrect=0;teacherLocked=false;const old=document.getElementById("teacherRepeat");if(old)old.remove();document.getElementById("teacherAnswer").style.display="block";show("virtualTeacher");renderTeacherPrompt()}
+function renderTeacherPrompt(){
+ const q=TEACHER_LESSON[teacherIndex];
+ document.getElementById("teacherScenario").textContent=`AULA ${teacherIndex+1} · ${q.topic}`;
+ document.getElementById("teacherPrompt").textContent=q.prompt;
+ document.getElementById("teacherTranslation").textContent=q.pt;
+ document.getElementById("teacherHint").textContent="Dica: "+q.hint;
+ document.getElementById("teacherProgress").style.width=(teacherIndex/TEACHER_LESSON.length*100)+"%";
+ document.getElementById("teacherAnswer").value="";
+ document.getElementById("teacherAnswer").disabled=false;
+ document.getElementById("teacherFeedback").className="feedback";
+ document.getElementById("teacherFeedback").textContent="";
+ document.getElementById("teacherSend").style.display="block";
+ document.getElementById("teacherNext").style.display="none";
+ teacherLocked=false;
+}
+function normalizeTeacherText(v){return v.toLocaleLowerCase("en").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[.,!?']/g,"").replace(/\s+/g," ").trim()}
+function analyzeTeacherAnswer(raw,q){
+ const v=normalizeTeacherText(raw);
+ const words=v.split(" ").filter(Boolean);
+ const hasAny=list=>list.some(x=>v.includes(x));
+ let feedback="",suggestion=q.examples[0],valid=false;
+ if(q.topic==="APRESENTAÇÃO"){
+   valid=/^(my name is|i am|im)\s+[a-z][a-z -]*$/.test(v);
+   if(!valid&&/^i\s+[a-z]/.test(v))feedback="Para se apresentar, não basta dizer “I” seguido do nome. Use “I'm + nome” ou “My name is + nome”.";
+ }else if(q.topic==="ORIGEM"){
+   valid=/^(i am from|im from)\s+[a-z][a-z -]*$/.test(v);
+   if(/^i from\b/.test(v))feedback="Falta o verbo “am”: diga “I am from...” ou “I'm from...”.";
+   else if(!valid)feedback="Use a estrutura “I'm from + lugar”. Exemplo: “I'm from Brazil.”";
+ }else if(q.topic==="PREFERÊNCIAS"){
+   valid=/^i like\s+.+/.test(v);
+   if(/^i likes\b/.test(v))feedback="Com “I”, o verbo fica “like”, sem S: “I like rock music.”";
+   else if(/^i am like\b/.test(v))feedback="Para falar de algo que você gosta, diga “I like...”, sem “am”.";
+   else if(!valid)feedback="Comece com “I like...” e acrescente algo de que você gosta.";
+ }else if(q.topic==="ROTINA"){
+   valid=/^(in the morning )?i (study|work|go|have|eat|drink|play|read|usually|often|sometimes|wake|start|walk|exercise|learn)\b/.test(v);
+   if(/^i am (study|work|go|have|eat|drink|play|read)\b/.test(v))feedback="Para hábitos, normalmente usamos o presente simples: “I study”, não “I am study”.";
+   else if(!valid)feedback="Fale de uma atividade usando “I + verbo”: “I study”, “I work”, “I have breakfast”.";
+ }else if(q.topic==="APRENDIZADO"){
+   valid=hasAny(["because","i want","to travel","for work","for my job","to study","to communicate","i need"]);
+   if(!valid)feedback="Explique seu motivo usando “because...”, “I want to...” ou “I need to...”.";
+ }
+ if(valid&&!feedback)feedback="Sua resposta combina com a pergunta e usa uma estrutura adequada.";
+ if(valid&&words.length<2){valid=false;feedback="Sua resposta está muito curta. Tente escrever uma frase completa."}
+ return {valid,feedback:feedback||q.explain,suggestion};
+}
+function submitTeacherAnswer(){
+ if(teacherLocked)return;
+ const raw=document.getElementById("teacherAnswer").value.trim();
+ if(!raw){const fb=document.getElementById("teacherFeedback");fb.textContent="Escreva uma resposta para continuar.";fb.className="feedback show";return}
+ const q=TEACHER_LESSON[teacherIndex],result=analyzeTeacherAnswer(raw,q);
+ const fb=document.getElementById("teacherFeedback");
+ teacherLocked=true;
+ if(result.valid)teacherCorrect++;
+ document.getElementById("teacherAnswer").disabled=true;
+ fb.innerHTML="";
+ const heading=document.createElement("b");heading.textContent=result.valid?"Boa resposta!":"Vamos melhorar juntos.";
+ const submitted=document.createElement("p");submitted.textContent="Sua resposta: "+raw;
+ const explanation=document.createElement("p");explanation.textContent=result.feedback;
+ const examples=document.createElement("p");examples.textContent="Exemplo: "+q.examples.join(" / ");
+ const note=document.createElement("p");note.style.fontSize="12px";note.style.color="var(--muted)";note.textContent="Correção guiada: o sistema verifica estruturas e palavras-chave desta atividade; não avalia todos os detalhes da gramática.";
+ fb.append(heading,submitted,explanation,examples,note);
+ fb.className="feedback show";
+ document.getElementById("teacherSend").style.display="none";
+ const next=document.getElementById("teacherNext");
+ next.textContent=teacherIndex===TEACHER_LESSON.length-1?"Finalizar aula →":"Próxima pergunta →";
+ next.style.display="block";
+}
+function nextTeacherPrompt(){
+ if(!teacherLocked)return;
+ if(teacherIndex<TEACHER_LESSON.length-1){teacherIndex++;renderTeacherPrompt();return}
+ const xp=teacherCorrect*8+5;
+ stats.xp+=xp;stats.done++;registerStudyDay();saveStats();
+ document.getElementById("teacherScenario").textContent="AULA CONCLUÍDA";
+ document.getElementById("teacherPrompt").textContent=`Você praticou ${TEACHER_LESSON.length} respostas!`;
+ document.getElementById("teacherTranslation").textContent=`Respostas reconhecidas: ${teacherCorrect}/${TEACHER_LESSON.length}. Você ganhou ${xp} XP.`;
+ document.getElementById("teacherHint").textContent="Continue praticando para ganhar confiança.";
+ document.getElementById("teacherProgress").style.width="100%";
+ document.getElementById("teacherAnswer").style.display="none";
+ document.getElementById("teacherFeedback").className="feedback";
+ document.getElementById("teacherNext").style.display="none";
+ const again=document.createElement("button");again.id="teacherRepeat";again.className="btn full";again.style.marginTop="12px";again.textContent="Repetir aula";again.onclick=showVirtualTeacher;
+ document.getElementById("teacherFeedback").after(again);
+}
+function speakTeacherPrompt(){speakEnglish(TEACHER_LESSON[teacherIndex].prompt,.85)}
+
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function goHome(){stopTimer();stopListening();show("home");renderStats()}
+
+function showDictionary(){show("dictionary");renderDictionary()}
+function renderDictionary(){
+ const input=document.getElementById("dictSearch");if(!input)return;const term=input.value.trim().toLocaleLowerCase("pt-BR");
+ const items=BANK.filter(q=>!term||q.en.toLocaleLowerCase("en").includes(term)||q.pt.toLocaleLowerCase("pt-BR").includes(term)).slice(0,60);
+ document.getElementById("dictionaryList").innerHTML=items.map(q=>`<div class="answer" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div style="min-width:0;flex:1;display:flex;gap:10px;align-items:flex-start"><div class="dictionary-visual">${visualForWord(q.en)||"💬"}</div><div style="min-width:0"><b>${q.en}</b><div style="color:var(--muted);font-size:13px">${q.pt}</div><small style="color:var(--green)">${q.cat}</small><div style="font-size:12px;color:var(--muted);margin-top:4px">${q.cat==="Informal"?"Uso casual — prefira com amigos e pessoas próximas.":q.cat==="Cumprimentos"?"Saudação comum do dia a dia.":"Expressão prática para situações cotidianas."}</div><div style="font-size:13px;margin-top:7px">Pronúncia aproximada: <b>${PRONUNCIATION[q.en]||"ouça para praticar"}</b></div></div></div><button class="star-btn ${isFavorite(q.en)?"saved":""}" aria-label="${isFavorite(q.en)?"Remover dos":"Adicionar aos"} favoritos" onclick="toggleFavorite('${encodeURIComponent(q.en)}')">${isFavorite(q.en)?"★":"☆"}</button></div><div style="display:flex;gap:7px;margin-top:10px"><button class="btn secondary" style="padding:8px 10px;font-size:11px;flex:1" onclick="speakWord('${encodeURIComponent(q.en)}',1)">🔊 Normal</button><button class="btn secondary" style="padding:8px 10px;font-size:11px;flex:1" onclick="speakWord('${encodeURIComponent(q.en)}',.28)">🐢 Lenta</button></div></div>`).join("")||'<div class="feedback show">Nenhuma palavra encontrada.</div>';
+}
+function showFavorites(){show("favorites");renderFavorites()}
+function renderFavorites(){const list=document.getElementById("favoriteList");if(!list)return;const items=favorites.map(en=>BANK.find(q=>q.en===en)).filter(Boolean);renderFavoriteCount();list.innerHTML=items.length?items.map(q=>`<div class="answer" style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><b>${q.en}</b><div style="color:var(--muted);font-size:13px">${q.pt}</div><small style="color:var(--green)">${q.cat}</small></div><button class="btn secondary" style="padding:8px 10px;font-size:12px" onclick="speakWord('${encodeURIComponent(q.en)}',1)">🔊</button><button class="star-btn saved" onclick="toggleFavorite('${encodeURIComponent(q.en)}')">★</button></div>`).join(""):'<div class="favorite-empty"><div style="font-size:34px;margin-bottom:8px">☆</div><b>Nenhum favorito por enquanto</b><p style="font-size:13px">Abra o Dicionário e toque na estrela das palavras que quiser guardar.</p><button class="btn secondary" onclick="showDictionary()">Abrir dicionário</button></div>'}
+function startFavoriteReview(){const pool=favorites.map(en=>BANK.find(q=>q.en===en)).filter(Boolean);if(!pool.length){alert("Salve algumas palavras com a estrela antes de iniciar a revisão.");return}stopTimer();reviewMode=true;timedMode=false;document.getElementById("timerLabel").textContent="";questions=shuffle(pool).slice(0,Math.min(10,pool.length));currentCategory="favorites";beginRound("REVISÃO DOS FAVORITOS")}
+function speakWord(encoded,rate=1){speakEnglish(decodeURIComponent(encoded),rate)}
+function saveName(){const val=document.getElementById("nameInput").value.trim();if(!val)return;profile.name=val.slice(0,22);saveProfile();renderProfile()}
+function showProfile(){show("profile");renderProfile()}
+function renderProfile(){
+ const li=levelInfo();document.getElementById("profileNameTitle").textContent=profile.name;document.getElementById("profileName").textContent=profile.name;document.getElementById("profileLevel").textContent="NÍVEL "+li.level+" · "+li.name;document.getElementById("profileXp").textContent=stats.xp;document.getElementById("profileRounds").textContent=stats.done;document.getElementById("profileStreak").textContent=profile.streak;document.getElementById("nameInput").value=profile.name;
+ const achievements=[
+  ["Primeiros passos","Complete seu primeiro desafio",stats.done>=1,"✦"],
+  ["Dez desafios","Complete 10 rodadas",stats.done>=10,"◆"],
+  ["Colecionador de XP","Acumule 100 XP",stats.xp>=100,"★"],
+  ["Mil pontos","Acumule 1.000 XP",stats.xp>=1000,"🏆"],
+  ["Boa memória","Acerte 20 perguntas",stats.correct>=20,"◎"],
+  ["Consistência","Estude por 3 dias seguidos",profile.streak>=3,"◷"],
+  ["Pequena coleção","Salve 5 palavras nos favoritos",favorites.length>=5,"★"],
+  ["Maratonista","Responda 50 questões",stats.attempts>=50,"🔥"],
+  ["Baú aberto","Resgate sua primeira recompensa",claimedChests.length>=1,"🎁"],
+  ["Uma semana","Estude por 7 dias seguidos",profile.streak>=7,"🏅"]
+ ];
+ const unlocked=achievements.filter(a=>a[2]).length;document.getElementById("achievementCount").textContent=unlocked+"/"+achievements.length+" desbloqueadas";
+ document.getElementById("achievementList").innerHTML=achievements.map(a=>`<div class="answer" style="opacity:${a[2]?1:.52}"><span style="font-size:22px;margin-right:10px">${a[3]}</span><span style="flex:1"><b>${a[0]}</b><br><small style="color:var(--muted)">${a[1]}</small></span><span>${a[2]?"✓":"🔒"}</span></div>`).join("");
+}
+
+let listeningQuestions=[],listeningIndex=0,listeningCorrect=0,listeningLocked=false;
+function startListeningPractice(){
+ stopListening();listeningQuestions=shuffle(BANK.filter(q=>!q.en.includes("?")&&q.en.length<35)).slice(0,10);
+ listeningIndex=0;listeningCorrect=0;listeningLocked=false;show("listening");renderListeningQuestion();
+}
+function stopListening(){if("speechSynthesis" in window)window.speechSynthesis.cancel()}
+function playListeningWord(rate=1){
+ const q=listeningQuestions[listeningIndex];if(!q)return;
+ document.getElementById("listenStatus").textContent=rate<1?"Reproduzindo em velocidade lenta…":"Reproduzindo em velocidade normal…";
+ speakEnglish(q.en,rate);
+}
+function renderListeningQuestion(){
+ listeningLocked=false;const q=listeningQuestions[listeningIndex];
+ document.getElementById("listenCounter").textContent=`QUESTÃO ${listeningIndex+1}/${listeningQuestions.length}`;
+ document.getElementById("listenStatus").textContent="Toque em um dos botões para ouvir.";
+ document.getElementById("listenFeedback").className="feedback";
+ document.getElementById("listenNext").style.display="none";
+ const wrong=shuffle(BANK.filter(x=>x.en!==q.en)).slice(0,3).map(x=>x.en);
+ const options=shuffle([q.en,...wrong]);
+ document.getElementById("listenAnswers").innerHTML=options.map((v,i)=>`<button class="answer" data-value="${encodeURIComponent(v)}" onclick="answerListening(this,'${encodeURIComponent(q.en)}')"><span class="letter">${String.fromCharCode(65+i)}</span>${v}</button>`).join("");
+}
+function answerListening(btn,correctEncoded){
+ if(listeningLocked)return;listeningLocked=true;
+ const right=decodeURIComponent(correctEncoded),picked=decodeURIComponent(btn.dataset.value),ok=picked===right;
+ if(ok)listeningCorrect++;
+ document.querySelectorAll("#listenAnswers .answer").forEach(b=>{b.disabled=true;if(decodeURIComponent(b.dataset.value)===right)b.classList.add("correct")});
+ if(!ok)btn.classList.add("wrong");
+ const q=listeningQuestions[listeningIndex];
+ const feedback=document.getElementById("listenFeedback");
+ feedback.className="feedback show";
+ feedback.innerHTML=ok?`<b>Isso mesmo!</b> ${q.pt}.`:`<b>A palavra era ${q.en}.</b> Significa ${q.pt}.`;
+ document.getElementById("listenNext").style.display="block";
+ document.getElementById("listenNext").textContent=listeningIndex===listeningQuestions.length-1?"Ver resultado":"Próxima questão";
+}
+function nextListeningQuestion(){
+ if(listeningIndex<listeningQuestions.length-1){listeningIndex++;renderListeningQuestion();playListeningWord(.85)}
+ else{
+  const pct=Math.round(listeningCorrect/listeningQuestions.length*100);
+  document.getElementById("listenFeedback").className="feedback show";
+  document.getElementById("listenFeedback").innerHTML=`<b>Treino concluído!</b> Você identificou ${listeningCorrect} de ${listeningQuestions.length} palavras (${pct}%).`;
+  document.getElementById("listenNext").style.display="none";
+  document.getElementById("listenAnswers").innerHTML="";
+  document.getElementById("listenStatus").textContent="Você pode voltar ao início e tentar novamente.";
+  stats.attempts+=listeningQuestions.length;stats.correct+=listeningCorrect;stats.done++;stats.xp+=listeningCorrect*10;registerStudyDay();saveStats();completeDailyTask("listen");
+ }
+}
+
+const REWARDS=[
+ {xp:300,title:"Explorador de viagens",desc:"Desbloqueia Transporte e lugares",icon:"🧳",category:"Transporte e lugares"},
+ {xp:400,title:"Profissional em formação",desc:"Desbloqueia Trabalho e estudos",icon:"💼",category:"Trabalho e estudos"},
+ {xp:550,title:"Mestre dos desafios",desc:"Desbloqueia o desafio cronometrado especial",icon:"⚡",feature:"timed"}
+];
+function isRewardUnlocked(r){return stats.xp>=r.xp}
+function nextReward(){return REWARDS.find(r=>!isRewardUnlocked(r))}
+const CHEST_MILESTONES=[
+ {xp:150,bonus:20,title:"Baú de bronze",icon:"🟤"},
+ {xp:350,bonus:35,title:"Baú de prata",icon:"🥈"},
+ {xp:600,bonus:50,title:"Baú de ouro",icon:"🥇"}
+];
+function loadClaimedChests(){try{const v=JSON.parse(localStorage.getItem("em_claimed_chests"));return Array.isArray(v)?v:[]}catch(e){return[]}}
+let claimedChests=loadClaimedChests();
+function saveClaimedChests(){localStorage.setItem("em_claimed_chests",JSON.stringify(claimedChests))}
+function claimChest(index){
+ const chest=CHEST_MILESTONES[index];
+ if(!chest||stats.xp<chest.xp||claimedChests.includes(index))return;
+ claimedChests.push(index);saveClaimedChests();
+ stats.xp+=chest.bonus;saveStats();
+ renderRewards();
+ alert(`${chest.title} aberto! Você ganhou ${chest.bonus} XP bônus.`);
+}
+function renderChests(){
+ const el=document.getElementById("chestArea");if(!el)return;
+ el.innerHTML=CHEST_MILESTONES.map((c,i)=>{
+  const claimed=claimedChests.includes(i),ready=stats.xp>=c.xp&&!claimed;
+  const status=claimed?"RESGATADO":ready?"DISPONÍVEL":`${c.xp-stats.xp} XP restantes`;
+  return `<div class="chest-card ${ready?"ready":""}"><div style="font-size:28px">${claimed?"🎁":ready?"🎁":"🔒"}</div><div style="flex:1;min-width:0"><b>${c.title}</b><small style="display:block;color:var(--muted)">${c.bonus} XP bônus · ${status}</small></div>${ready?`<button class="btn" style="padding:8px 11px;font-size:12px" onclick="claimChest(${i})">Abrir</button>`:""}</div>`;
+ }).join("");
+}
+function renderRewards(){
+ const next=nextReward(),title=document.getElementById("rewardNextTitle"),hint=document.getElementById("rewardNextHint"),bar=document.getElementById("rewardProgress");
+ if(title&&hint&&bar){
+  if(next){title.textContent=next.title;hint.textContent=`Faltam ${Math.max(0,next.xp-stats.xp)} XP · meta ${next.xp} XP`;const prev=REWARDS[REWARDS.indexOf(next)-1]?.xp||0;bar.style.width=Math.min(100,Math.max(0,(stats.xp-prev)/(next.xp-prev)*100))+"%"}
+  else{title.textContent="Todas as recompensas conquistadas!";hint.textContent="Você desbloqueou todas as conquistas atuais.";bar.style.width="100%"}
+ }
+ const list=document.getElementById("rewardList");
+ if(list)list.innerHTML=REWARDS.map(r=>`<div class="reward-row ${isRewardUnlocked(r)?"unlocked":""}"><div class="reward-icon">${isRewardUnlocked(r)?r.icon:"🔒"}</div><div style="flex:1"><b>${r.title}</b><small>${r.desc}</small></div><small style="font-weight:800;color:${isRewardUnlocked(r)?"var(--green)":"var(--muted)"}">${isRewardUnlocked(r)?"DESBLOQUEADO":r.xp+" XP"}</small></div>`).join("");
+ renderChests();
+}
+function categoryRequirement(name){const r=REWARDS.find(x=>x.category===name);return r&&!isRewardUnlocked(r)?r:null}
+function renderCategories(){
+ document.getElementById("categories").innerHTML=CAT_META.map(([name,icon,desc])=>{
+  const req=categoryRequirement(name),label=req?`🔒 ${req.xp} XP para desbloquear`:desc;
+  return `<button class="category ${req?"locked":""}" onclick="${req?`showLockedReward('${encodeURIComponent(name)}')`:`startQuiz('${name}')`}" aria-label="${req?"Categoria bloqueada: ":""}${name}"><span class="cat-icon">${req?"🔒":icon}</span><b>${name}</b><small>${req?label:desc}</small></button>`;
+ }).join("");
+}
+function showLockedReward(encoded){
+ const name=decodeURIComponent(encoded),req=categoryRequirement(name);
+ if(req)alert(`${name} está bloqueada por enquanto. Ganhe mais ${req.xp-stats.xp} XP para desbloquear! Continue estudando — a meta é acessível.`);
+}
+function startSpecialTimed(){
+ const r=REWARDS.find(x=>x.feature==="timed");
+ if(!r||!isRewardUnlocked(r)){alert("Este desafio será desbloqueado ao alcançar "+r.xp+" XP.");return}
+ startTimed();
+}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startQuiz(category){
+ stopTimer();reviewMode=false;timedMode=false;document.getElementById("timerLabel").textContent="";
+ currentCategory=category;let pool=category==="all"?BANK:BANK.filter(x=>x.cat===category);questions=shuffle(pool).slice(0,Math.min(10,pool.length));beginRound(category==="all"?"DESAFIO GERAL":category.toUpperCase());
+}
+function beginRound(label){
+ qIndex=0;correct=0;earned=0;locked=false;reverseDirection=false;show("quiz");document.getElementById("quizCategory").textContent=label;renderQuestion();
+}
+function startReview(limit=10){
+ stopTimer();reviewMode=true;timedMode=false;document.getElementById("timerLabel").textContent="";
+ const due=BANK.filter(q=>{const st=wordStats[q.en];return st&&(st.wrong>0||st.due<=Date.now())});
+ const ranked=due.sort((a,b)=>{const x=wordStats[a.en],y=wordStats[b.en];return (y.wrong-y.correct)-(x.wrong-x.correct)});
+ const selected=ranked.slice(0,limit);
+ const remaining=shuffle(BANK.filter(q=>!selected.some(v=>v.en===q.en))).slice(0,Math.max(0,limit-selected.length));
+ questions=[...selected,...remaining].slice(0,limit);
+ beginRound(limit===5?"REVISÃO DIÁRIA · 5 PALAVRAS":"REVISÃO INTELIGENTE");
+}
+function startTimed(){
+ stopTimer();reviewMode=false;timedMode=true;secondsLeft=60;document.getElementById("timerLabel").textContent="60s";
+ currentCategory="all";questions=shuffle(BANK).slice(0,Math.min(20,BANK.length));beginRound("DESAFIO CONTRA O TEMPO");
+ timerHandle=setInterval(()=>{secondsLeft--;document.getElementById("timerLabel").textContent=secondsLeft+"s";if(secondsLeft<=0){stopTimer();finishQuiz(true)}},1000);
+}
+let reverseDirection=false;
+function currentPrompt(){const q=questions[qIndex];return reverseDirection?{word:q.pt,answer:q.en,instruction:"ESCOLHA A PALAVRA EM INGLÊS",sub:"Qual palavra corresponde a esta tradução?"}:{word:q.en,answer:q.pt,instruction:"ESCOLHA A TRADUÇÃO CORRETA",sub:"O que esta palavra significa?"}}
+let englishVoices=[];
+function refreshEnglishVoices(){
+ if(!("speechSynthesis" in window))return;
+ englishVoices=window.speechSynthesis.getVoices().filter(v=>/^en(-|_)/i.test(v.lang));
+}
+if("speechSynthesis" in window){
+ refreshEnglishVoices();
+ window.speechSynthesis.addEventListener?.("voiceschanged",refreshEnglishVoices);
+ // Ask the browser to initialize its voice list early instead of on the first tap.
+ window.speechSynthesis.getVoices();
+}
+function speakEnglish(text,rate=1){
+ if(!("speechSynthesis" in window)){alert("A leitura de voz não está disponível neste navegador.");return}
+ const synth=window.speechSynthesis;
+ synth.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="en-US";
+ utterance.rate=rate;
+ utterance.pitch=1;
+ refreshEnglishVoices();
+ const preferred=englishVoices.find(v=>/^en-US/i.test(v.lang))||englishVoices.find(v=>/^en/i.test(v.lang));
+ if(preferred)utterance.voice=preferred;
+ utterance.onerror=()=>{const status=document.getElementById("listenStatus");if(status)status.textContent="Não foi possível reproduzir o áudio. Verifique o mecanismo de texto para fala do Android."};
+ synth.speak(utterance);
+}
+function speakCurrent(rate=1){speakEnglish(questions[qIndex].en,rate)}
+function toggleDirection(){if(locked)return;reverseDirection=!reverseDirection;renderQuestion()}
+
+const WORD_VISUALS={
+ "APPLE":"🍎","BREAD":"🍞","WATER":"💧","MILK":"🥛","CHEESE":"🧀","STRAWBERRY":"🍓","DOG":"🐶","CAT":"🐱","BIRD":"🐦","HORSE":"🐴","TURTLE":"🐢","BUTTERFLY":"🦋",
+ "HOUSE":"🏠","DOOR":"🚪","WINDOW":"🪟","KITCHEN":"🍳","BEDROOM":"🛏️","MOUNTAIN":"🏔️","RIVER":"🏞️","FOREST":"🌳","SUN":"☀️","MOON":"🌙","STAR":"⭐","RAIN":"🌧️","OCEAN":"🌊",
+ "AIRPORT":"🛫","TICKET":"🎟️","SUITCASE":"🧳","PASSPORT":"🛂","TRAIN":"🚆","FLIGHT":"✈️","MAP":"🗺️","ORANGE":"🍊","RICE":"🍚","EGG":"🥚","CHICKEN":"🍗","POTATO":"🥔","SUGAR":"🍬","BREAKFAST":"🥞","FISH":"🐟","LION":"🦁","ELEPHANT":"🐘","MONKEY":"🐒","RABBIT":"🐰","SNAKE":"🐍","TABLE":"🪑","CHAIR":"🪑","BATHROOM":"🚿","WALL":"🧱","FLOOR":"🟫","COFFEE":"☕"
+};
+function visualForWord(en){return WORD_VISUALS[en]||""}
+
+function renderQuestion(){
+ locked=false;const q=questions[qIndex],p=currentPrompt();document.getElementById("levelPill").textContent=["","INICIANTE","INTERMEDIÁRIO","AVANÇADO"][q.level];document.getElementById("counter").textContent=`QUESTÃO ${qIndex+1}/${questions.length}`;document.getElementById("roundScore").textContent=earned+" XP";document.getElementById("progressBar").style.width=(qIndex/questions.length*100)+"%";document.getElementById("questionWord").textContent=p.word;const visual=document.getElementById("questionVisual"),visualEmoji=visualForWord(q.en);visual.textContent=visualEmoji;visual.classList.toggle("visible",!!visualEmoji&&!reverseDirection);document.getElementById("quizPronunciation").textContent="Pronúncia aproximada: "+(PRONUNCIATION[q.en]||"toque para ouvir");document.getElementById("instruction").textContent=p.instruction;document.getElementById("subInstruction").textContent=p.sub;document.getElementById("feedback").className="feedback";document.getElementById("nextBtn").style.display="none";
+ let wrong=shuffle(BANK.filter(x=>x.en!==q.en)).slice(0,3).map(x=>reverseDirection?x.en:x.pt);let opts=shuffle([p.answer,...wrong]);document.getElementById("answers").innerHTML=opts.map((v,i)=>`<button class="answer" data-value="${encodeURIComponent(v)}" onclick="answer(this,'${encodeURIComponent(p.answer)}')"><span class="letter">${String.fromCharCode(65+i)}</span>${v}</button>`).join("");
+}
+function answer(btn,correctEncoded){
+ if(locked)return;locked=true;let right=decodeURIComponent(correctEncoded),picked=decodeURIComponent(btn.dataset.value),ok=picked===right;if(ok){const gained=timedMode?15:10;correct++;earned+=gained;stats.xp+=gained}recordWord(questions[qIndex],ok);stats.attempts++;if(ok)stats.correct++;document.querySelectorAll(".answer").forEach(b=>{b.disabled=true;let val=decodeURIComponent(b.dataset.value);if(val===right)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");let f=document.getElementById("feedback");f.className="feedback show";f.innerHTML=ok?"<b>Resposta correta!</b> +10 XP. Continue assim.":`<b>Quase!</b> A resposta correta é ${right}.`;document.getElementById("roundScore").textContent=earned+" XP";document.getElementById("nextBtn").style.display="block";document.getElementById("nextBtn").textContent=qIndex===questions.length-1?"Ver resultado":"Próxima questão";saveStats();
+}
+function nextQuestion(){if(qIndex<questions.length-1){qIndex++;renderQuestion()}else{finishQuiz(false)}}
+function finishQuiz(timeEnded=false){
+ stopTimer();stats.done++;registerStudyDay();saveStats();if(reviewMode&&questions.length===5)completeDailyTask("words");let total=timedMode?Math.max(1,qIndex+(locked?1:0)):questions.length;let rate=Math.round(correct/total*100);
+ document.getElementById("resultTitle").textContent=rate>=80?"Excelente trabalho!":rate>=50?"Bom progresso!":"Continue praticando!";
+ document.getElementById("resultText").textContent=timeEnded?"O tempo terminou. Continue praticando para superar seu recorde.":reviewMode?"Revisão concluída. As palavras difíceis voltarão em futuras sessões.":`Você concluiu ${total} questões. Seus pontos são registrados a cada resposta correta. Cada rodada é uma oportunidade de evoluir.`;
+ document.getElementById("resultCorrect").textContent=`${correct}/${total}`;document.getElementById("resultXp").textContent=earned;document.getElementById("resultRate").textContent=rate+"%";document.getElementById("progressBar").style.width="100%";show("result");
+}
+renderCategories();renderStats();renderFavoriteCount();
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+}
+</script>
+
+<nav id="bottomNav" style="position:sticky;bottom:0;max-width:720px;margin:0 auto;background:rgba(16,23,19,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 14px calc(9px + env(safe-area-inset-bottom));z-index:10">
+ <button onclick="goHome()" style="background:none;border:0;color:var(--green);font-size:12px;padding:7px">⌂<br>Início</button>
+ <button onclick="showDictionary()" style="background:none;border:0;color:var(--muted);font-size:12px;padding:7px">⌕<br>Dicionário</button>
+ <button onclick="showFavorites()" style="background:none;border:0;color:var(--muted);font-size:12px;padding:7px">★ <span id="favoriteBadge">0</span><br>Favoritos</button>
+ <button onclick="showProfile()" style="background:none;border:0;color:var(--muted);font-size:12px;padding:7px">♙<br>Perfil</button>
+</nav>
+</body></html>
